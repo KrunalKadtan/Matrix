@@ -2,10 +2,13 @@
 #include <conio.h>
 
 int row, column;
+int v_row, v_column;
 
-void printVirtualMatrix(int matrix[row][column]);
+void printMatrix(int matrix[row][column]);
+void printVirtualMatrix(char matrix[v_row][v_column]);
 int countNumberOfDigits(int number);
 int maxNumber(int numbers[]);
+int additionOfDigits(int numbers[]);
 
 void main()
 {
@@ -27,7 +30,7 @@ void main()
         }
     }
 
-    printVirtualMatrix(Matrix);
+    printMatrix(Matrix);
     printf("\n");
 
     int number_of_digits[row][column];
@@ -40,10 +43,10 @@ void main()
         }
     }
 
-    printVirtualMatrix(number_of_digits);
+    printMatrix(number_of_digits);
     printf("\n");
 
-    int max_number_of_digits[row];
+    int max_number_of_digits[column];
 
     for(int i=0; i<column; i++)
     {
@@ -57,18 +60,60 @@ void main()
         max_number_of_digits[i] = maxNumber(col);
     }
 
-    printf("%d %d %d", max_number_of_digits[0], max_number_of_digits[1], max_number_of_digits[2]);
+    printf("%d %d %d\n\n", max_number_of_digits[0], max_number_of_digits[1], max_number_of_digits[2]);
+
+    v_column = additionOfDigits(max_number_of_digits) + column + 3;
+    v_row = row + 2;
+
+    char Virtual_Matrix[v_row][v_column];
+
+    for(int i=0; i<v_row; i++)
+    {
+        for(int j=0; j<v_column; j++)
+        {
+            if(((i == 0) || (i == v_row-1)) && ((j == 1) || (j == v_column-2)))
+            {
+                Virtual_Matrix[i][j] = '-';
+            }
+            else if(((i == 0) || (i == v_row-1)) && ((j == 0) || (j == v_column-1)))
+            {
+                Virtual_Matrix[i][j] = '+';
+            }
+            else if(((i > 0) && (i < v_row-1)) && ((j == 0) || (j == v_column-1)))
+            {
+                Virtual_Matrix[i][j] = '|';
+            }
+            else
+            {
+                Virtual_Matrix[i][j] = ' ';
+            }
+        }
+    }
+
+    printVirtualMatrix(Virtual_Matrix);
 
     getch();
 }
 
-void printVirtualMatrix(int matrix[row][column])
+void printMatrix(int matrix[row][column])
 {
     for(int i=0; i<row; i++)
     {
         for(int j=0; j<column; j++)
         {
             printf("%d ", matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void printVirtualMatrix(char matrix[v_row][v_column])
+{
+    for(int i=0; i<v_row; i++)
+    {
+        for(int j=0; j<v_column; j++)
+        {
+            printf("%c", matrix[i][j]);
         }
         printf("\n");
     }
@@ -100,4 +145,16 @@ int maxNumber(int numbers[])
     }
 
     return max;
+}
+
+int additionOfDigits(int numbers[])
+{
+    int result = 0;
+
+    for(int i=0; i<column; i++)
+    {
+        result += numbers[i];
+    }
+
+    return result;
 }
