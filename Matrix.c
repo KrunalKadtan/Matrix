@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <conio.h>
+#include <stdlib.h>
 
 int row, column;
 int v_row, v_column;
@@ -9,8 +10,9 @@ void printVirtualMatrix(char matrix[v_row][v_column]);
 int countNumberOfDigits(int number);
 int maxNumber(int numbers[]);
 int additionOfDigits(int numbers[]);
+void separateNumberIntoDigits(int number, int digits[]);
 
-void main()
+int main()
 {
     printf("Enter Number Of Rows : ");
     scanf("%d", &row);
@@ -62,6 +64,29 @@ void main()
 
     printf("%d %d %d\n\n", max_number_of_digits[0], max_number_of_digits[1], max_number_of_digits[2]);
 
+    int *digits, *d;
+    int n = 1;
+
+    digits = (int*) malloc (n * sizeof(int));
+
+    for(int  i=0; i<row; i++)
+    {
+        for(int j=0; j<column; j++)
+        {
+            digits = (int*) realloc (digits, (n * number_of_digits[i][j]) * sizeof(int));
+            separateNumberIntoDigits(Matrix[i][j], digits);
+
+            for(int k=0; k<number_of_digits[i][j]; k++)
+            {
+                printf("%d, ", digits[k]);
+            }
+
+            printf("\n");
+        }
+    }
+
+    printf("\n");
+
     v_column = additionOfDigits(max_number_of_digits) + column + 3;
     v_row = row + 2;
 
@@ -93,6 +118,7 @@ void main()
     printVirtualMatrix(Virtual_Matrix);
 
     getch();
+    return 0;
 }
 
 void printMatrix(int matrix[row][column])
@@ -157,4 +183,14 @@ int additionOfDigits(int numbers[])
     }
 
     return result;
+}
+
+void separateNumberIntoDigits(int number, int *digits)
+{
+    int num = number;
+    for(int i=countNumberOfDigits(number)-1; i>=0; i--)
+    {
+        digits[i] = num % 10;
+        num /= 10;
+    }
 }
