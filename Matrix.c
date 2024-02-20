@@ -5,7 +5,6 @@
 int row, column;
 int v_row, v_column;
 
-void printMatrix(int matrix[row][column]);
 void printVirtualMatrix(char matrix[v_row][v_column]);
 int countNumberOfDigits(int number);
 int maxNumber(int numbers[]);
@@ -32,9 +31,6 @@ int main()
         }
     }
 
-    printMatrix(Matrix);
-    printf("\n");
-
     int number_of_digits[row][column];
 
     for(int i=0; i<row; i++)
@@ -44,9 +40,6 @@ int main()
             number_of_digits[i][j] = countNumberOfDigits(Matrix[i][j]);
         }
     }
-
-    printMatrix(number_of_digits);
-    printf("\n");
 
     int max_number_of_digits[column];
 
@@ -62,35 +55,19 @@ int main()
         max_number_of_digits[i] = maxNumber(col);
     }
 
-    printf("%d %d %d\n\n", max_number_of_digits[0], max_number_of_digits[1], max_number_of_digits[2]);
+    int addition_of_digits[column];
+
+    v_column = additionOfDigits(max_number_of_digits) + column + 3;
+    v_row = row + 2;
+
+    char Virtual_Matrix[v_row][v_column];
 
     int *digits, *d;
     int n = 1;
 
     digits = (int*) malloc (n * sizeof(int));
 
-    for(int  i=0; i<row; i++)
-    {
-        for(int j=0; j<column; j++)
-        {
-            digits = (int*) realloc (digits, (n * number_of_digits[i][j]) * sizeof(int));
-            separateNumberIntoDigits(Matrix[i][j], digits);
-
-            for(int k=0; k<number_of_digits[i][j]; k++)
-            {
-                printf("%d, ", digits[k]);
-            }
-
-            printf("\n");
-        }
-    }
-
     printf("\n");
-
-    v_column = additionOfDigits(max_number_of_digits) + column + 3;
-    v_row = row + 2;
-
-    char Virtual_Matrix[v_row][v_column];
 
     for(int i=0; i<v_row; i++)
     {
@@ -108,6 +85,27 @@ int main()
             {
                 Virtual_Matrix[i][j] = '|';
             }
+            else if(((i > 0) && (i < v_row-1)) && ((j > 1) && (j < v_column-2)))
+            {
+                for(int  x=0, a=1; x<row; x++, a++)
+                {
+                    for(int y=0, b=2; y<column; y++)
+                    {
+                        digits = (int*) realloc (digits, (n * number_of_digits[x][y]) * sizeof(int));
+                        separateNumberIntoDigits(Matrix[x][y], digits);
+
+                        for(int k=0; k<number_of_digits[x][y]; k++, b++)
+                        {
+                            Virtual_Matrix[a][b] = digits[k] + 48;
+                        }
+
+                        for(int m=0; m<=max_number_of_digits[y]-number_of_digits[x][y]; m++, b++)
+                        {
+                            Virtual_Matrix[a][b] = ' ';
+                        }
+                    }
+                }
+            }
             else
             {
                 Virtual_Matrix[i][j] = ' ';
@@ -119,18 +117,6 @@ int main()
 
     getch();
     return 0;
-}
-
-void printMatrix(int matrix[row][column])
-{
-    for(int i=0; i<row; i++)
-    {
-        for(int j=0; j<column; j++)
-        {
-            printf("%d ", matrix[i][j]);
-        }
-        printf("\n");
-    }
 }
 
 void printVirtualMatrix(char matrix[v_row][v_column])
