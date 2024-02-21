@@ -10,6 +10,7 @@ int countNumberOfDigits(int number);
 int maxNumber(int numbers[]);
 int additionOfDigits(int numbers[]);
 void separateNumberIntoDigits(int number, int digits[]);
+void virtualMatrixConversion(int matrix[row][column], int digit_count[row][column], int max_digit_count[], char v_matrix[v_row][v_column]);
 
 int main()
 {
@@ -62,56 +63,7 @@ int main()
 
     char Virtual_Matrix[v_row][v_column];
 
-    int *digits, *d;
-    int n = 1;
-
-    digits = (int*) malloc (n * sizeof(int));
-
-    printf("\n");
-
-    for(int i=0; i<v_row; i++)
-    {
-        for(int j=0; j<v_column; j++)
-        {
-            if(((i == 0) || (i == v_row-1)) && ((j == 1) || (j == v_column-2)))
-            {
-                Virtual_Matrix[i][j] = '-';
-            }
-            else if(((i == 0) || (i == v_row-1)) && ((j == 0) || (j == v_column-1)))
-            {
-                Virtual_Matrix[i][j] = '+';
-            }
-            else if(((i > 0) && (i < v_row-1)) && ((j == 0) || (j == v_column-1)))
-            {
-                Virtual_Matrix[i][j] = '|';
-            }
-            else if(((i > 0) && (i < v_row-1)) && ((j > 1) && (j < v_column-2)))
-            {
-                for(int  x=0, a=1; x<row; x++, a++)
-                {
-                    for(int y=0, b=2; y<column; y++)
-                    {
-                        digits = (int*) realloc (digits, (n * number_of_digits[x][y]) * sizeof(int));
-                        separateNumberIntoDigits(Matrix[x][y], digits);
-
-                        for(int k=0; k<number_of_digits[x][y]; k++, b++)
-                        {
-                            Virtual_Matrix[a][b] = digits[k] + 48;
-                        }
-
-                        for(int m=0; m<=max_number_of_digits[y]-number_of_digits[x][y]; m++, b++)
-                        {
-                            Virtual_Matrix[a][b] = ' ';
-                        }
-                    }
-                }
-            }
-            else
-            {
-                Virtual_Matrix[i][j] = ' ';
-            }
-        }
-    }
+    virtualMatrixConversion(Matrix, number_of_digits, max_number_of_digits, Virtual_Matrix);
 
     printVirtualMatrix(Virtual_Matrix);
 
@@ -178,5 +130,59 @@ void separateNumberIntoDigits(int number, int *digits)
     {
         digits[i] = num % 10;
         num /= 10;
+    }
+}
+
+void virtualMatrixConversion(int matrix[row][column], int digit_count[row][column], int max_digit_count[], char v_matrix[v_row][v_column])
+{
+    int *digits, *d;
+    int n = 1;
+
+    digits = (int*) malloc (n * sizeof(int));
+
+    printf("\n");
+
+    for(int i=0; i<v_row; i++)
+    {
+        for(int j=0; j<v_column; j++)
+        {
+            if(((i == 0) || (i == v_row-1)) && ((j == 1) || (j == v_column-2)))
+            {
+                v_matrix[i][j] = '-';
+            }
+            else if(((i == 0) || (i == v_row-1)) && ((j == 0) || (j == v_column-1)))
+            {
+                v_matrix[i][j] = '+';
+            }
+            else if(((i > 0) && (i < v_row-1)) && ((j == 0) || (j == v_column-1)))
+            {
+                v_matrix[i][j] = '|';
+            }
+            else if(((i > 0) && (i < v_row-1)) && ((j > 1) && (j < v_column-2)))
+            {
+                for(int  x=0, a=1; x<row; x++, a++)
+                {
+                    for(int y=0, b=2; y<column; y++)
+                    {
+                        digits = (int*) realloc (digits, (n * digit_count[x][y]) * sizeof(int));
+                        separateNumberIntoDigits(matrix[x][y], digits);
+
+                        for(int k=0; k<digit_count[x][y]; k++, b++)
+                        {
+                            v_matrix[a][b] = digits[k] + 48;
+                        }
+
+                        for(int m=0; m<=max_digit_count[y]-digit_count[x][y]; m++, b++)
+                        {
+                            v_matrix[a][b] = ' ';
+                        }
+                    }
+                }
+            }
+            else
+            {
+                v_matrix[i][j] = ' ';
+            }
+        }
     }
 }
