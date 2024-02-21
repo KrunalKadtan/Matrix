@@ -5,6 +5,9 @@
 int row, column;
 int v_row, v_column;
 
+void inputMatrix(int matrix[row][column]);
+void storeDigitsNumberIntoMatrix(int matrix[row][column], int digit_matrix[row][column]);
+void storeMaxDigitIntoMatrix(int digit_matrix[row][column], int max_digits_matrix[]);
 void printVirtualMatrix(char matrix[v_row][v_column]);
 int countNumberOfDigits(int number);
 int maxNumber(int numbers[]);
@@ -22,41 +25,13 @@ int main()
     printf("\n");
 
     int Matrix[row][column];
-
-    for(int i=0; i<row; i++)
-    {
-        for(int j=0; j<column; j++)
-        {
-            printf("Enter A%d%d Element : ", i+1, j+1);
-            scanf("%d", &Matrix[i][j]);
-        }
-    }
+    inputMatrix(Matrix);
 
     int number_of_digits[row][column];
-
-    for(int i=0; i<row; i++)
-    {
-        for(int j=0; j<column; j++)
-        {
-            number_of_digits[i][j] = countNumberOfDigits(Matrix[i][j]);
-        }
-    }
+    storeDigitsNumberIntoMatrix(Matrix, number_of_digits);
 
     int max_number_of_digits[column];
-
-    for(int i=0; i<column; i++)
-    {
-        int col[row];
-
-        for(int j=0; j<row; j++)
-        {
-            col[j] = number_of_digits[j][i];
-        }
-
-        max_number_of_digits[i] = maxNumber(col);
-    }
-
-    int addition_of_digits[column];
+    storeMaxDigitIntoMatrix(number_of_digits, max_number_of_digits);
 
     v_column = additionOfDigits(max_number_of_digits) + column + 3;
     v_row = row + 2;
@@ -69,6 +44,44 @@ int main()
 
     getch();
     return 0;
+}
+
+void inputMatrix(int matrix[row][column])
+{
+    for(int i=0; i<row; i++)
+    {
+        for(int j=0; j<column; j++)
+        {
+            printf("Enter A%d%d Element : ", i+1, j+1);
+            scanf("%d", &matrix[i][j]);
+        }
+    }
+}
+
+void storeDigitsNumberIntoMatrix(int matrix[row][column], int digit_matrix[row][column])
+{
+    for(int i=0; i<row; i++)
+    {
+        for(int j=0; j<column; j++)
+        {
+            digit_matrix[i][j] = countNumberOfDigits(matrix[i][j]);
+        }
+    }
+}
+
+void storeMaxDigitIntoMatrix(int digit_matrix[row][column], int max_digits_matrix[])
+{
+    for(int i=0; i<column; i++)
+    {
+        int col[row];
+
+        for(int j=0; j<row; j++)
+        {
+            col[j] = digit_matrix[j][i];
+        }
+
+        max_digits_matrix[i] = maxNumber(col);
+    }
 }
 
 void printVirtualMatrix(char matrix[v_row][v_column])
