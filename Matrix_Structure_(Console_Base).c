@@ -5,6 +5,8 @@
 int row, column;
 int v_row, v_column;
 
+void getRowColumn();
+void MATRIX(int Matrix[row][column]);
 void inputMatrix(int matrix[row][column]);
 void storeDigitsNumberIntoMatrix(int matrix[row][column], int digit_matrix[row][column]);
 void storeMaxDigitIntoMatrix(int digit_matrix[row][column], int max_digits_matrix[]);
@@ -17,16 +19,25 @@ void virtualMatrixConversion(int matrix[row][column], int digit_count[row][colum
 
 int main()
 {
+    getRowColumn();
+    int M1[row][column];
+    inputMatrix(M1);
+    MATRIX(M1);
+
+    getch();
+    return 0;
+}
+
+void getRowColumn()
+{
     printf("Enter Number Of Rows : ");
     scanf("%d", &row);
     printf("Enter Numbers Of Columns : ");
     scanf("%d", &column);
+}
 
-    printf("\n");
-
-    int Matrix[row][column];
-    inputMatrix(Matrix);
-
+void MATRIX(int Matrix[row][column])
+{
     int number_of_digits[row][column];
     storeDigitsNumberIntoMatrix(Matrix, number_of_digits);
 
@@ -41,9 +52,6 @@ int main()
     virtualMatrixConversion(Matrix, number_of_digits, max_number_of_digits, Virtual_Matrix);
 
     printVirtualMatrix(Virtual_Matrix);
-
-    getch();
-    return 0;
 }
 
 void inputMatrix(int matrix[row][column])
