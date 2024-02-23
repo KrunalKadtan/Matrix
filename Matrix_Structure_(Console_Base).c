@@ -108,10 +108,30 @@ int countNumberOfDigits(int number)
 {
     int digit = 0;
 
-    while(number != 0)
+    if(number == 0)
     {
-        digit++;
-        number /= 10;
+        digit = 1;
+    }
+    else
+    {
+        if(number < 0)
+        {
+            digit = 1;
+
+            while(number != 0)
+            {
+                digit++;
+                number /= 10;
+            }
+        }
+        else
+        {
+            while(number != 0)
+            {
+                digit++;
+                number /= 10;
+            }
+        }
     }
 
     return digit;
@@ -147,10 +167,21 @@ int additionOfDigits(int numbers[])
 void separateNumberIntoDigits(int number, int *digits)
 {
     int num = number;
-    for(int i=countNumberOfDigits(number)-1; i>=0; i--)
+
+    if(number < 0)
+    {
+        num -= (2*num);
+    }
+
+    for(int i=countNumberOfDigits(number)-1; (number < 0) ? (i>0) : (i>=0); i--)
     {
         digits[i] = num % 10;
         num /= 10;
+    }
+
+    if(number < 0)
+    {
+        digits[0] = -3;
     }
 }
 
