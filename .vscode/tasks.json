@@ -9,6 +9,7 @@
 				"-fdiagnostics-color=always",
 				"-g",
 				"${file}",
+				"matrix_function.c",
 				"-o",
 				"${fileDirname}\\${fileBasenameNoExtension}.exe"
 			],
