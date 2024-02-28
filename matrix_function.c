@@ -3,6 +3,18 @@
 #include <stdlib.h>
 #include "matrix_function.h"
 
+int v_row, v_column;
+
+void virtualMatrixConversion(int row, int column, int matrix[row][column], int digit_count[row][column], int max_digit_count[], char v_matrix[v_row][v_column]);
+
+void storeDigitsNumberIntoMatrix(int row, int column, int matrix[row][column], int digit_matrix[row][column]);
+void storeMaxDigitIntoMatrix(int row, int column, int digit_matrix[row][column], int max_digits_matrix[]);
+void printVirtualMatrix(char matrix[v_row][v_column]);
+int countNumberOfDigits(int number);
+int maxNumber(int row, int numbers[]);
+int additionOfDigits(int column, int numbers[]);
+void separateNumberIntoDigits(int number, int digits[]);
+
 // Function Definition
 
 void getRowColumn(int *row, int *column)
@@ -11,24 +23,6 @@ void getRowColumn(int *row, int *column)
     scanf("%d", row);
     printf("Enter Numbers Of Columns : ");
     scanf("%d", column);
-}
-
-void MATRIX(int row, int column, int *v_row, int *v_column, int Matrix[row][column])
-{
-    int number_of_digits[row][column];
-    storeDigitsNumberIntoMatrix(row, column, Matrix, number_of_digits);
-
-    int max_number_of_digits[column];
-    storeMaxDigitIntoMatrix(row, column, number_of_digits, max_number_of_digits);
-
-    *v_column = additionOfDigits(column, max_number_of_digits) + column + 3;
-    *v_row = row + 2;
-
-    char Virtual_Matrix[*v_row][*v_column];
-
-    virtualMatrixConversion(row, column, *v_row, *v_column, Matrix, number_of_digits, max_number_of_digits, Virtual_Matrix);
-
-    printVirtualMatrix(*v_row, *v_column, Virtual_Matrix);
 }
 
 void inputMatrix(int row, int column, int matrix[row][column])
@@ -42,6 +36,84 @@ void inputMatrix(int row, int column, int matrix[row][column])
         }
     }
 }
+
+
+
+void MATRIX(int row, int column, int Matrix[row][column])
+{
+    int number_of_digits[row][column];
+    storeDigitsNumberIntoMatrix(row, column, Matrix, number_of_digits);
+
+    int max_number_of_digits[column];
+    storeMaxDigitIntoMatrix(row, column, number_of_digits, max_number_of_digits);
+
+    v_column = additionOfDigits(column, max_number_of_digits) + column + 3;
+    v_row = row + 2;
+
+    char Virtual_Matrix[v_row][v_column];
+
+    virtualMatrixConversion(row, column, Matrix, number_of_digits, max_number_of_digits, Virtual_Matrix);
+
+    printVirtualMatrix(Virtual_Matrix);
+}
+
+
+
+void virtualMatrixConversion(int row, int column, int matrix[row][column], int digit_count[row][column], int max_digit_count[], char v_matrix[v_row][v_column])
+{
+    int *digits, *d;
+    int n = 1;
+
+    digits = (int*) malloc (n * sizeof(int));
+
+    printf("\n");
+
+    for(int i=0; i<v_row; i++)
+    {
+        for(int j=0; j<v_column; j++)
+        {
+            if(((i == 0) || (i == v_row-1)) && ((j == 1) || (j == v_column-2)))
+            {
+                v_matrix[i][j] = '-';
+            }
+            else if(((i == 0) || (i == v_row-1)) && ((j == 0) || (j == v_column-1)))
+            {
+                v_matrix[i][j] = '+';
+            }
+            else if(((i > 0) && (i < v_row-1)) && ((j == 0) || (j == v_column-1)))
+            {
+                v_matrix[i][j] = '|';
+            }
+            else if(((i > 0) && (i < v_row-1)) && ((j > 1) && (j < v_column-2)))
+            {
+                for(int  x=0, a=1; x<row; x++, a++)
+                {
+                    for(int y=0, b=2; y<column; y++)
+                    {
+                        digits = (int*) realloc (digits, (n * digit_count[x][y]) * sizeof(int));
+                        separateNumberIntoDigits(matrix[x][y], digits);
+
+                        for(int k=0; k<digit_count[x][y]; k++, b++)
+                        {
+                            v_matrix[a][b] = digits[k] + 48;
+                        }
+
+                        for(int m=0; m<=max_digit_count[y]-digit_count[x][y]; m++, b++)
+                        {
+                            v_matrix[a][b] = ' ';
+                        }
+                    }
+                }
+            }
+            else
+            {
+                v_matrix[i][j] = ' ';
+            }
+        }
+    }
+}
+
+
 
 void storeDigitsNumberIntoMatrix(int row, int column, int matrix[row][column], int digit_matrix[row][column])
 {
@@ -69,7 +141,7 @@ void storeMaxDigitIntoMatrix(int row, int column, int digit_matrix[row][column],
     }
 }
 
-void printVirtualMatrix(int v_row, int v_column, char matrix[v_row][v_column])
+void printVirtualMatrix(char matrix[v_row][v_column])
 {
     for(int i=0; i<v_row; i++)
     {
@@ -162,56 +234,49 @@ void separateNumberIntoDigits(int number, int *digits)
     }
 }
 
-void virtualMatrixConversion(int row, int column, int v_row, int v_column, int matrix[row][column], int digit_count[row][column], int max_digit_count[], char v_matrix[v_row][v_column])
+
+
+void matrixAddition(int row, int column, int matrix_1[row][column], int matrix_2[row][column], int matrix_result[row][column])
 {
-    int *digits, *d;
-    int n = 1;
-
-    digits = (int*) malloc (n * sizeof(int));
-
-    printf("\n");
-
-    for(int i=0; i<v_row; i++)
+    for(int i=0; i<row; i++)
     {
-        for(int j=0; j<v_column; j++)
+        for(int j=0; j<column; j++)
         {
-            if(((i == 0) || (i == v_row-1)) && ((j == 1) || (j == v_column-2)))
+            matrix_result[i][j] = matrix_1[i][j] + matrix_2[i][j];
+        }
+    }
+}
+
+void matrixSubtraction(int row, int column, int matrix_1[row][column], int matrix_2[row][column], int matrix_result[row][column])
+{
+    for(int i=0; i<row; i++)
+    {
+        for(int j=0; j<column; j++)
+        {
+            matrix_result[i][j] = matrix_1[i][j] - matrix_2[i][j];
+        }
+    }
+}
+
+void matrixMultiplication(int row_1, int column_1, int row_2, int column_2, int matrix_1[row_1][column_1], int matrix_2[row_2][column_2], int matrix_result[row_1][column_2])
+{
+    if(column_1 == row_2)
+    {
+        for(int i=0; i<row_1; i++)
+        {
+            for(int j=0; j<column_2; j++)
             {
-                v_matrix[i][j] = '-';
-            }
-            else if(((i == 0) || (i == v_row-1)) && ((j == 0) || (j == v_column-1)))
-            {
-                v_matrix[i][j] = '+';
-            }
-            else if(((i > 0) && (i < v_row-1)) && ((j == 0) || (j == v_column-1)))
-            {
-                v_matrix[i][j] = '|';
-            }
-            else if(((i > 0) && (i < v_row-1)) && ((j > 1) && (j < v_column-2)))
-            {
-                for(int  x=0, a=1; x<row; x++, a++)
+                matrix_result[i][j] = 0;
+            
+                for(int k=0; k<row_1; k++)
                 {
-                    for(int y=0, b=2; y<column; y++)
-                    {
-                        digits = (int*) realloc (digits, (n * digit_count[x][y]) * sizeof(int));
-                        separateNumberIntoDigits(matrix[x][y], digits);
-
-                        for(int k=0; k<digit_count[x][y]; k++, b++)
-                        {
-                            v_matrix[a][b] = digits[k] + 48;
-                        }
-
-                        for(int m=0; m<=max_digit_count[y]-digit_count[x][y]; m++, b++)
-                        {
-                            v_matrix[a][b] = ' ';
-                        }
-                    }
+                    matrix_result[i][j] += (matrix_1[i][k] * matrix_2[k][j]);
                 }
             }
-            else
-            {
-                v_matrix[i][j] = ' ';
-            }
         }
+    }
+    else
+    {
+        printf("Multiplication Not Possible as %d not equal to %d ..!", column_1, row_2);
     }
 }
