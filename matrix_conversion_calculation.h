@@ -12,4 +12,7 @@ int maxNumber(int row, int numbers[]);
 int additionOfDigits(int column, int numbers[]);
 void separateNumberIntoDigits(int number, int digits[]);
 
+void interchangeRow(int row, int column, int matrix[row][column], int row_1, int row_2);
+void interchangeColumn(int row, int column, int matrix[row][column], int column_1, int column_2);
+
 #endif

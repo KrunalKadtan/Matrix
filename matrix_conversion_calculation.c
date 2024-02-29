@@ -3,6 +3,12 @@
 #include "matrix_conversion_calculation.h"
 
 
+void swap(int *num1, int *num2)
+{
+    int temp = *num1;
+    *num1 = *num2;
+    *num2 = temp;
+}
 
 void virtualMatrixConversion(int row, int column, int v_row, int v_column, int matrix[row][column], int digit_count[row][column], int max_digit_count[], char v_matrix[v_row][v_column])
 {
@@ -174,5 +180,61 @@ void separateNumberIntoDigits(int number, int *digits)
     if(number < 0)
     {
         digits[0] = -3;
+    }
+}
+
+
+
+void interchangeRow(int row, int column, int matrix[row][column], int row_1, int row_2)
+{
+    for(int i=0; i<row; i++)
+    {
+        int count = 0;
+
+        for(int j=0; j<column; j++)
+        {
+            if(i == row_1-1)
+            {
+                swap(&matrix[row_1-1][j], &matrix[row_2-1][j]);
+                count++;
+            }
+            else if(i == row_2-1)
+            {
+                swap(&matrix[row_2-1][j], &matrix[row_1-1][j]);
+                count++;
+            }
+        }
+
+        if(count > 0)
+        {
+            break;
+        }
+    }
+}
+
+void interchangeColumn(int row, int column, int matrix[row][column], int column_1, int column_2)
+{
+    for(int j=0; j<column; j++)
+    {
+        int count = 0;
+
+        for(int i=0; i<row; i++)
+        {
+            if(j == column_1-1)
+            {
+                swap(&matrix[i][column_1-1], &matrix[i][column_2-1]);
+                count++;
+            }
+            else if(j == column_2-1)
+            {
+                swap(&matrix[i][column_2-1], &matrix[i][column_1-1]);
+                count++;
+            }
+        }
+
+        if(count > 0)
+        {
+            break;
+        }
     }
 }
