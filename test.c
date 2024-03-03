@@ -1,10 +1,6 @@
 #include <stdio.h>
 #include <conio.h>
-#include <matrix.h>
-
-/*
-    EITHER "matrix.h" OR <matrix.h>
-*/
+#include "matrix.h"
 
 int main()
 {
