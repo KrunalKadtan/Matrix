@@ -1,5 +1,5 @@
-#ifndef MATRIX_FUNCTION_H
-#define MATRIX_FUNCTION_H
+#ifndef MATRIX_H
+#define MATRIX_H
 
 // Function Declaration
 

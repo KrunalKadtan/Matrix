@@ -1,5 +1,5 @@
-#ifndef MATRIX_CONVERSION_CALCULATION_H
-#define MATRIX_CONVERSION_CALCULATION_H
+#ifndef MATRIX_CALCULATION_H
+#define MATRIX_CALCULATION_H
 
 
 void virtualMatrixConversion(int row, int column, int v_row, int v_column, int matrix[row][column], int digit_count[row][column], int max_digit_count[], char v_matrix[v_row][v_column]);

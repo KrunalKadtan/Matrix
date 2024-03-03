@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "matrix_conversion_calculation.h"
+#include "matrix_calculation.h"
 
 
 void swap(int *num1, int *num2)

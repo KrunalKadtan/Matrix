@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <conio.h>
-#include "matrix_function.h"
+#include "matrix.h"
 
 int main()
 {

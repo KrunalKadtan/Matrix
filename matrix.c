@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
-#include "matrix_conversion_calculation.h"
-#include "matrix_function.h"
+#include "matrix_calculation.h"
+#include "matrix.h"
 
 int v_row, v_column;
 
