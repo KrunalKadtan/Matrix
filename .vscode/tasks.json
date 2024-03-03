@@ -9,8 +9,6 @@
 				"-fdiagnostics-color=always",
 				"-g",
 				"${file}",
-				"matrix.c",
-				"matrix_calculation.c",
 				"-o",
 				"${fileDirname}\\${fileBasenameNoExtension}.exe"
 			],
