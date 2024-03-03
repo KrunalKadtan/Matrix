@@ -94,3 +94,19 @@ void matrixMultiplication(int row_1, int column_1, int row_2, int column_2, int 
         printf("Multiplication Not Possible as %d not equal to %d ..!", column_1, row_2);
     }
 }
+
+void scalarRowMultiplication(int row, int column, int matrix[row][column], int multiply_row, int number)
+{
+    for(int j=0; j<column; j++)
+    {
+        matrix[multiply_row-1][j] *= number;
+    }
+}
+
+void scalarColumnMultiplication(int row, int column, int matrix[row][column], int multiply_column, int number)
+{
+    for(int i=0; i<row; i++)
+    {
+        matrix[i][multiply_column-1] *= number;
+    }
+}

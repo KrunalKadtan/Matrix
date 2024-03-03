@@ -12,6 +12,12 @@ int main()
     inputMatrix(row_1, column_1, M1);
     MATRIX(row_1, column_1, M1);
 
+    scalarRowMultiplication(row_1, column_1, M1, 3, 2);
+    MATRIX(row_1, column_1, M1);
+
+    scalarColumnMultiplication(row_1, column_1, M1, 2, 3);
+    MATRIX(row_1, column_1, M1);
+
     getch();
     return 0;
 }
